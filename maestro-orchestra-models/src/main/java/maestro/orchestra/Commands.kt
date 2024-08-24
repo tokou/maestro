@@ -367,7 +367,10 @@ data class AssertConditionCommand(
 data class InputTextCommand(
     val text: String,
     val label: String? = null,
+    val redact: Boolean = false,
 ) : Command {
+
+    val redacted: String get() = if (redact) "[REDACTED]" else text
 
     override fun description(): String {
         return label ?: "Input text $text"
