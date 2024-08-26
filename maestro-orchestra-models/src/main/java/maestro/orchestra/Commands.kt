@@ -20,7 +20,9 @@
 package maestro.orchestra
 
 import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.databind.JsonSerializer
 import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.databind.ser.std.StdSerializer
 import maestro.KeyCode
 import maestro.Point
@@ -367,6 +369,7 @@ data class AssertConditionCommand(
     }
 }
 
+@JsonSerialize(using = InputTextCommand.Serializer::class)
 data class InputTextCommand(
     val text: String,
     val label: String? = null,
@@ -389,10 +392,7 @@ data class InputTextCommand(
         return "InputTextCommand(text=$redacted,label=$label)"
     }
 
-    class Serializer : StdSerializer<InputTextCommand> {
-
-        constructor() : super(InputTextCommand::class.java)
-        constructor(item: Class<InputTextCommand>) : super(item)
+    class Serializer : JsonSerializer<InputTextCommand>() {
 
         override fun serialize(value: InputTextCommand, gen: JsonGenerator, provider: SerializerProvider) = with (gen) {
             writeStartObject()

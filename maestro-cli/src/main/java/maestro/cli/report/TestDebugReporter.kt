@@ -14,7 +14,6 @@ import maestro.debuglog.DebugLogStore
 import maestro.debuglog.LogConfig
 import maestro.orchestra.MaestroCommand
 import org.slf4j.LoggerFactory
-import com.fasterxml.jackson.databind.module.SimpleModule
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
@@ -29,7 +28,6 @@ import java.util.IdentityHashMap
 import java.util.Properties
 import kotlin.io.path.absolutePathString
 import kotlin.io.path.exists
-import maestro.orchestra.InputTextCommand
 
 object TestDebugReporter {
 
@@ -45,8 +43,6 @@ object TestDebugReporter {
         // json
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
         mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
-        val module = SimpleModule().addSerializer(InputTextCommand.Serializer())
-        mapper.registerModule(module)
     }
 
     fun saveFlow(flowName: String, data: FlowDebugMetadata, path: Path) {
