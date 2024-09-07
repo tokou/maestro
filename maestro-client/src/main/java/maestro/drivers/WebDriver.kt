@@ -395,12 +395,10 @@ class WebDriver(val isStudio: Boolean) : Driver {
         // noop for web
     }
 
-    override fun isAirplaneModeEnabled(): Boolean {
-        TODO("Not yet implemented")
-    }
+    override fun isAirplaneModeEnabled(): Boolean = false
 
     override fun setAirplaneMode(enabled: Boolean) {
-        TODO("Not yet implemented")
+        // noop for web
     }
 
     override fun installApp(path: Path) {
