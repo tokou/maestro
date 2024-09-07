@@ -28,6 +28,7 @@ import org.junit.jupiter.api.assertThrows
 import java.awt.Color
 import java.io.File
 import java.nio.file.Paths
+import kotlin.io.path.pathString
 import kotlin.system.measureTimeMillis
 import maestro.orchestra.util.Env.withDefaultEnvVars
 
@@ -3104,8 +3105,7 @@ class IntegrationTest {
         // Given
         val commands = readCommands("116_install_app")
 
-        val driver = driver {
-        }
+        val driver = driver {}
 
         // When
         Maestro(driver).use {
@@ -3113,16 +3113,16 @@ class IntegrationTest {
         }
 
         // Then
-        val path = "maestro-client/src/main/resources/maestro-app.apk"
-        driver.assertEventCount(Event.InstallApp(path), 2)
+        val path = Paths.get(System.getProperty("user.dir"), "../maestro-client/src/main/resources/maestro-app.apk").normalize()
+        driver.assertEventCount(Event.InstallApp(path.pathString), 2)
     }
 
     @Test
     fun `Case 117 - Install app from env`() {
         // Given
-        val path = "maestro-client/src/main/resources/maestro-app.apk"
+        val path = Paths.get(System.getProperty("user.dir"), "../maestro-client/src/main/resources/maestro-app.apk").normalize()
         val commands = readCommands("116_install_app_env")
-            .withEnv(mapOf("APP_PATH" to path))
+            .withEnv(mapOf("APP_PATH" to path.pathString))
 
         val driver = driver {
         }
@@ -3133,7 +3133,7 @@ class IntegrationTest {
         }
 
         // Then
-        driver.assertHasEvent(Event.InstallApp(path))
+        driver.assertHasEvent(Event.InstallApp(path.pathString))
     }
 
     @Test
