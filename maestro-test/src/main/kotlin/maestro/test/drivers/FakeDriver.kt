@@ -395,7 +395,7 @@ class FakeDriver : Driver {
     }
 
     override fun installApp(path: String) {
-        events.add(Event.InstallApp)
+        events.add(Event.InstallApp(path))
     }
 
     sealed class Event {
@@ -491,7 +491,7 @@ class FakeDriver : Driver {
 
         object StopRecording : Event()
 
-        object InstallApp: Event()
+        data class InstallApp(val path: String): Event()
     }
 
     interface UserInteraction

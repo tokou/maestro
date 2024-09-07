@@ -3113,8 +3113,27 @@ class IntegrationTest {
         }
 
         // Then
-        // No test failure
-        driver.assertHasEvent(Event.InstallApp)
+        val path = "maestro-client/src/main/resources/maestro-app.apk"
+        driver.assertEventCount(Event.InstallApp(path), 2)
+    }
+
+    @Test
+    fun `Case 117 - Install app from env`() {
+        // Given
+        val path = "maestro-client/src/main/resources/maestro-app.apk"
+        val commands = readCommands("116_install_app_env")
+            .withEnv(mapOf("APP_PATH" to path))
+
+        val driver = driver {
+        }
+
+        // When
+        Maestro(driver).use {
+            orchestra(it).runFlow(commands)
+        }
+
+        // Then
+        driver.assertHasEvent(Event.InstallApp(path))
     }
 
     @Test
