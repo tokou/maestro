@@ -1023,7 +1023,7 @@ data class InstallAppCommand(
     }
 
     override fun evaluateScripts(jsEngine: JsEngine): Command {
-        return this
+        return copy(path = path?.evaluateScripts(jsEngine))
     }
 
 }
